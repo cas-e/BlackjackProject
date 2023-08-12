@@ -1,19 +1,16 @@
 package com.skilldistillery.cardgame.entities;
 
 public enum Suit {
-	HEARTS("Hearts"),
-	SPADES("Spades"),
-	CLUBS("Clubs"),
-	DIAMONDS("Diamonds");
+	HEART("♥"), SPADE("♠"), CLUBS("♣"), DIAMONDS("♦");
 	
 	private String name;
 	
-	Suit(String s) {
-		name = s;
+	Suit(String n) { 
+		name = n; 
 	}
 	
 	@Override
-	public String toString() {
-		return name;
+	public String toString() { 
+		return name; 
 	}
 }
