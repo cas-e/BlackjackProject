@@ -39,7 +39,7 @@ This implementation finds the best value for a hand, given Aces can be valued 1 
 
 ## Lessons Learned
 
-This lesson was my first time using Java enums. Enums were introduced to Java in version five, and before that time, it seems it was typical to declare groups of constants as integers to and "enumerate by hand". For example something like,
+This lesson was my first time using Java enums. Enums were introduced to Java in version five, and before that time, it seems it was typical to declare groups of constants as integers and to "enumerate by hand". For example something like,
 
 ~~~
 public static final int foo = 1;
