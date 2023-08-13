@@ -16,6 +16,9 @@ public class Deck {
 		}
 	}
 	
+	public int totalCardsInDeck() {
+		return NUM_CARDS;
+	}
 	public int cardsLeftInDeck() { 
 		return cards.size(); 
 	}

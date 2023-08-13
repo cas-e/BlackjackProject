@@ -1,7 +1,7 @@
 package com.skilldistillery.cardgame.entities;
 
 public enum Suit {
-	HEART("♥"), SPADE("♠"), CLUBS("♣"), DIAMONDS("♦");
+	HEARTS("♥"), SPADES("♠"), CLUBS("♣"), DIAMONDS("♦");
 	
 	private String name;
 	

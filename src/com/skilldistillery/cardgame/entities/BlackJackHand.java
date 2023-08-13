@@ -6,7 +6,7 @@ public class BlackJackHand extends Hand {
 	 * Aces are sometimes 1, sometimes 11-- whichever is best for that hand.
 	 * The key property this method relies on is:
      * ~ 2 Aces, each counted as 11, will always be greater than 21  ~
-     * So we don't need to consider every combination of 1's and 11's;
+     * So we don't need to consider every combination of 1's and 11's,
      * most are ruled out as "always busts".
      * There are only two types of cases that are "sometimes not busts":
      *   case1 = 11 + 1 + 1 + ... + sumOfTheRest

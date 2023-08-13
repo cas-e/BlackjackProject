@@ -17,10 +17,11 @@ public class Game {
 	
 	private boolean dealerRevealed = false;
 	
-	private final int CUT = 52/2;
+	private int cut;
 	
 	public Game() {
 		Deck deck = new Deck();
+		this.cut = deck.totalCardsInDeck() / 52;
 		BlackJackHand dealerHand = new BlackJackHand();
 		BlackJackHand playerHand = new BlackJackHand();
 		dealer = new Dealer(deck, dealerHand);
@@ -60,16 +61,16 @@ public class Game {
 	
 	public void displayTable() {
 
-		String pHand = player.showHand();
-		String dHand = dealerRevealed ? dealer.showRevealedHand() : dealer.showHand();
+		String playHand = player.showHand();
+		String dealHand = dealerRevealed ? dealer.showRevealedHand() : dealer.showHand();
 		
-		String pScore = Integer.toString(playerScore);
-		String dScore = dealerRevealed ? Integer.toString(dealerScore) : "?";
+		String playScore = Integer.toString(playerScore);
+		String dealScore = dealerRevealed ? Integer.toString(dealerScore) : "?";
 		
-		System.out.println("\n-- Dealer at " + dScore + " --");
-		System.out.println(dHand + "\n");
-		System.out.println("-- Player at " + pScore + " --");
-		System.out.println(pHand);
+		System.out.println("\n-- Dealer at " + dealScore + " --");
+		System.out.println(dealHand + "\n");
+		System.out.println("-- Player at " + playScore + " --");
+		System.out.println(playHand);
 	}
 	
 	public void discardCurrentCards() {
@@ -84,14 +85,15 @@ public class Game {
 		dealer.discardOwnCards();
 		List<Card> cards = player.returnCards();
 		dealer.discardPlayerCards(cards);
-		// reset game values
+		// reset game state
 		playerScore = 0;
 		dealerScore = 0;
 		dealerRevealed = false;
 	}
 	
 	public void shuffleIfNeeded() {
-		if (dealer.checkCardsRemaining() <= CUT) {
+		if (dealer.checkCardsRemaining() <= this.cut) {
+			System.out.println("The dealer collects the discard pile back into the deck.");
 			dealer.rejoinDiscardPile();
 			dealerShuffles();
 		}
