@@ -1,9 +1,16 @@
 package com.skilldistillery.cardgame.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Dealer extends Player {
 	
 	private Deck deck;
+	
+	private List<Card> discardPile = new ArrayList<>();
+	
 	private String hidden = "[? ?]";
+	
 	
 	public Dealer(Deck d, BlackJackHand h) {
 		super(h);
@@ -17,6 +24,10 @@ public class Dealer extends Player {
 		return this.deck.dealCard();
 	}
 	
+	public void shuffle() {
+		deck.shuffle();
+	}
+	
 	public String dealToSelf() {
 		Card card = deck.dealCard();
 		String side = this.hand.hand.isEmpty() ? hidden : card.toString();
@@ -24,6 +35,23 @@ public class Dealer extends Player {
 		return side;
 	}
 	
+	public void discardOwnCards() {
+		discardPile.addAll(this.hand.hand);
+		this.hand.hand.clear();
+	}
+	
+	public void discardPlayerCards(List<Card> cards) {
+		discardPile.addAll(cards);
+	}
+	
+	public int checkCardsRemaining() {
+		return deck.cardsLeftInDeck();
+	}
+	
+	public void rejoinDiscardPile() {
+		deck.recieveDiscarded(discardPile);
+		discardPile.clear();
+	}
 	
 	public String showHand() {
 		StringBuilder sb = new StringBuilder(hidden + " ");

@@ -1,5 +1,7 @@
 package com.skilldistillery.cardgame.blackjack.app;
 
+import java.util.List;
+
 import com.skilldistillery.cardgame.entities.BlackJackHand;
 import com.skilldistillery.cardgame.entities.Card;
 import com.skilldistillery.cardgame.entities.Dealer;
@@ -15,13 +17,19 @@ public class Game {
 	
 	private boolean dealerRevealed = false;
 	
+	private final int CUT = 52/2;
+	
 	public Game() {
 		Deck deck = new Deck();
-		deck.shuffle();
 		BlackJackHand dealerHand = new BlackJackHand();
 		BlackJackHand playerHand = new BlackJackHand();
 		dealer = new Dealer(deck, dealerHand);
 		player = new Player(playerHand);
+	}
+	
+	public void dealerShuffles() {
+		System.out.println("The dealer shuffles the deck.");
+		dealer.shuffle();
 	}
 	
 	public void dealerDraws() {
@@ -55,12 +63,39 @@ public class Game {
 		String pHand = player.showHand();
 		String dHand = dealerRevealed ? dealer.showRevealedHand() : dealer.showHand();
 		
-		System.out.println("\n~~ Dealer ~~");
+		String pScore = Integer.toString(playerScore);
+		String dScore = dealerRevealed ? Integer.toString(dealerScore) : "?";
+		
+		System.out.println("\n-- Dealer at " + dScore + " --");
 		System.out.println(dHand + "\n");
-		System.out.println("~~ Player ~~");
+		System.out.println("-- Player at " + pScore + " --");
 		System.out.println(pHand);
 	}
 	
+	public void discardCurrentCards() {
+		dealer.discardOwnCards();
+		List<Card> cards = player.returnCards();
+		dealer.discardPlayerCards(cards);
+	}
+	
+	public void reset() {
+		// return cards
+		System.out.println("\nThe dealer collects the cards.");
+		dealer.discardOwnCards();
+		List<Card> cards = player.returnCards();
+		dealer.discardPlayerCards(cards);
+		// reset game values
+		playerScore = 0;
+		dealerScore = 0;
+		dealerRevealed = false;
+	}
+	
+	public void shuffleIfNeeded() {
+		if (dealer.checkCardsRemaining() <= CUT) {
+			dealer.rejoinDiscardPile();
+			dealerShuffles();
+		}
+	}
 	
 
 }

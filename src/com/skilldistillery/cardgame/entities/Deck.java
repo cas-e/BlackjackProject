@@ -17,13 +17,22 @@ public class Deck {
 	}
 	
 	public int cardsLeftInDeck() { 
-		return NUM_CARDS - cards.size(); 
+		return cards.size(); 
 	}
 	
 	public Card dealCard()       { 
 		return cards.remove(cards.size()-1);
 	}
 	
+	public void recieveDiscarded(List<Card> cards) {
+		this.cards.addAll(cards);
+		if (this.cards.size() != NUM_CARDS) {
+			System.out.println(this.cards.size());
+			System.out.println("BIG EFFIN ERROR");
+			System.out.println("BIG EFFIN ERROR");
+			System.out.println("BIG EFFIN ERROR");
+		}
+	}
 	public void shuffle() { 
 		Collections.shuffle(cards); 
 	}

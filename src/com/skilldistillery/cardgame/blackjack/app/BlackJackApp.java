@@ -8,27 +8,41 @@ public class BlackJackApp {
 	
 	Scanner scan = new Scanner(System.in);
 	
-	public static void main(String[] args) {
-		(new BlackJackApp()).run();
+	public static void main(String[] args) { 
+		(new BlackJackApp()).run(); 
 	}
 	
 	private void run() {
 		System.out.println("~~ Welcome to the Blackjack Table ~~\n");
 		
-		initialDeal();
-
-		game.displayTable();
+		game.dealerShuffles();
 		
+		boolean keepPlaying;
+		do {
+			keepPlaying = gameLoop();
+		} while (keepPlaying);
+		
+		System.out.println("\n~~ Thank you for playing Blackjack. Goodbye ~~");
+		scan.close();
+	}
+	
+	private boolean gameLoop() {
+		System.out.println("\n~~ The Round Begins ~~\n");
+		initialDeal();
+		game.displayTable();
+			
 		if (playerBlackjacks()) {
-			endGame();
-			return;
-		}
+			endRound();
+			return playerContinues();
+		} 
 		
 		playerHitLoop();
 		dealersTurn();
 		results();
-		endGame();
+		endRound();
+		return playerContinues();
 	}
+	
 	
 	private void initialDeal() {
 		for (int i = 0; i < 2; i++) {
@@ -36,26 +50,23 @@ public class BlackJackApp {
 			game.dealerDraws();
 		}
 	}
-	
-	private void endGame() {
-		System.out.println("\n~~ Thank you for playing Blackjack. Goodbye ~~");
-		scan.close();
-	}
-	
+		
 	private boolean playerBlackjacks() {
 		boolean player21 = game.playerScore() == 21;
 		boolean dealer21 = game.dealerScore() == 21;
 		
 		if (player21 && dealer21) {
-			System.out.println("Player gets Blackjack!");
+			System.out.println("\nPlayer gets Blackjack!\n");
 			game.dealerReveals();
-			System.out.println("Dealer also has Blackjack...\nThe game is a tie");
+			game.displayTable();
+			System.out.println("\nDealer also has Blackjack...\nThe game is a tie");
 		}
 		
 		if (player21) {
-			System.out.println("Player gets a Blackjack!");
+			System.out.println("\nPlayer gets a Blackjack!\n");
 			game.dealerReveals();
-			System.out.println("The player wins!!!");
+			game.displayTable();
+			System.out.println("\nThe player wins!!!");
 		}
 		return player21;
 	}
@@ -78,7 +89,7 @@ public class BlackJackApp {
 		}
 		
 		if (game.playerScore() == 21) {
-			System.err.println("\nThat's 21!!!");
+			System.out.println("\nThat's 21!!!");
 		}
 		
 		System.out.println("\nIt's now the dealer's turn. Press return to continue...");
@@ -89,10 +100,10 @@ public class BlackJackApp {
 		for (;;) {
 			System.out.println("\nPlease enter \"hit\" to hit or \"stand\" to stand");
 			String response = scan.nextLine().trim().toLowerCase();
-			if (response.equals("hit")) {
+			if (response.equals("hit") || response.equals("\"hit\"")) {
 				return true;
 			}
-			if (response.equals("stand")) {
+			if (response.equals("stand") || response.equals("\"stand\"")) {
 				return false;
 			}
 			System.out.println("\nOops. Didn't quite catch that...");
@@ -105,7 +116,6 @@ public class BlackJackApp {
 		while (game.dealerScore() < 17) {
 			game.dealerDraws();
 		}
-		
 		game.dealerReveals();
 		game.displayTable();
 	}
@@ -133,4 +143,17 @@ public class BlackJackApp {
 			}
 		}
 	}
+	
+	private boolean playerContinues() {
+		System.out.println("\nWould you like to play again?");
+		System.out.println("Enter [y] for yes or enter anthing else to quit");
+		return scan.nextLine().trim().toLowerCase().equals("y");
+	}
+	
+	private void endRound() {
+		game.discardCurrentCards();
+		game.reset();
+		game.shuffleIfNeeded();
+	}
+	
 }
