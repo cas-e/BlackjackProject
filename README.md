@@ -68,7 +68,7 @@ public enum Rank {
 }
 ~~~
 
-Blackjack cards have the irregular property that the number cards have distinct values, while all face cards have the same value of ten. The logic at (1) cleanly expresses this fact. Of course, if we ever expected our playing card orderings to change, or for new cards to be added, it would be a bad idea to derive these values from their ordinal property. Or as Bloch puts it, it would be "a maintenance nightmare" [1]. But playing cards haven't changed in hundreds of years, and this is more illustrative of the properties of enums. 
+Blackjack cards have the irregular property that the number cards have distinct values, while all face cards have the same value of ten. The logic at (1) cleanly expresses this fact. Of course, if we ever expected our playing card orderings to change, or for new cards to be added, it would be a bad idea to derive these values from their ordinal property. Or as [Bloch](https://en.wikipedia.org/wiki/Joshua_Bloch) puts it, it would be "a maintenance nightmare" [1]. But playing cards haven't changed in hundreds of years, and this is more illustrative of the properties of enums. 
 
 An alternative would be to use constructors for values, or for any other pertinent properties, as in this definition for Suit:
 
